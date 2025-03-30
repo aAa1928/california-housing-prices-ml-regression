@@ -95,7 +95,7 @@ with torch.no_grad():
         actual = y_test[i].item()
         predicted = y_pred[i].item()
         percentage_diff = abs((predicted - actual) / actual * 100)
-        print(f'Test {i+1} | Predicted: ${predicted:,.2f} | Actual: ${actual:,.2f} | Diff: {percentage_diff:.1f}%')
+        print(f'Test {i+1:3d} | Predicted: ${predicted:10,.2f} | Actual: ${actual:10,.2f} | Diff: {percentage_diff:6.1f}%')
     
     print(f'\nTest MSE: {test_loss.item():,.2f}')
     print(f'Test RMSE: ${torch.sqrt(test_loss).item():,.2f}')
