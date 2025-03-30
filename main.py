@@ -73,7 +73,6 @@ for i in range(1, epochs + 1):
     y_pred = model(X_train)
     
     loss = criterion(y_pred, y_train)
-    print(f'test: {loss}')
     losses.append(loss.item())
     
     if i % 10 == 0:
@@ -93,10 +92,18 @@ with torch.no_grad():
     test_loss = criterion(y_pred, y_test)
     
     for i in range(len(y_test)):
-        print(f'Test {i+1} | Predicted: ${y_pred[i].item():,.2f} | Actual: ${y_test[i].item():,.2f}')
+        actual = y_test[i].item()
+        predicted = y_pred[i].item()
+        percentage_diff = abs((predicted - actual) / actual * 100)
+        print(f'Test {i+1} | Predicted: ${predicted:,.2f} | Actual: ${actual:,.2f} | Diff: {percentage_diff:.1f}%')
     
     print(f'\nTest MSE: {test_loss.item():,.2f}')
     print(f'Test RMSE: ${torch.sqrt(test_loss).item():,.2f}')
+    
+    # Calculate MAPE (Mean Absolute Percentage Error)
+    percentage_errors = [(abs(y_pred[i].item() - y_test[i].item()) / y_test[i].item() * 100) for i in range(len(y_test))]
+    mape = sum(percentage_errors) / len(percentage_errors)
+    print(f'Test MAPE: {mape:.1f}%')
 
 # Save the model
 torch.save(model.state_dict(), 'house_price_regression_model.pth')
