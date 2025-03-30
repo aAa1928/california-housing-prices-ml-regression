@@ -64,7 +64,7 @@ y_test = torch.FloatTensor(y_test).reshape(-1, 1)
 # Initialize model and training parameters
 model = Model()
 criterion = nn.MSELoss()
-optimizer = optim.Adam(model.parameters(), lr=0.001)
+optimizer = optim.Adam(model.parameters(), lr=0.01)
 
 epochs = 1000
 losses = []
