@@ -34,6 +34,11 @@ torch.manual_seed(392)
 dataframe = pd.read_csv(r"california-housing-prices-dataset\housing.csv")
 
 print(dataframe.head())
+print("Missing values per column:\n", dataframe.isnull().sum())
+
+# Removes 207 of 20,640 rows with missing values in the dataset, specifically in the total_bedrooms column.
+dataframe = dataframe.dropna()
+print(f"Rows after dropping missing values: {len(dataframe)}")
 # %%
 
 dataframe['ocean_proximity'] = dataframe['ocean_proximity'].map({value: index for index, value in enumerate(dataframe['ocean_proximity'].unique())})
@@ -87,11 +92,10 @@ with torch.no_grad():
     y_pred = model(X_test)
     test_loss = criterion(y_pred, y_test)
     
-    # Print some sample predictions
-    for i in range(5):
+    for i in range(len(y_test)):
         print(f'Test {i+1} | Predicted: ${y_pred[i].item():,.2f} | Actual: ${y_test[i].item():,.2f}')
     
-    print(f'\nTest MSE: {test_loss.item():.2f}')
+    print(f'\nTest MSE: {test_loss.item():,.2f}')
     print(f'Test RMSE: ${torch.sqrt(test_loss).item():,.2f}')
 
 # Save the model
