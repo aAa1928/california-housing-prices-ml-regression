@@ -57,8 +57,8 @@ To predict:
 The model is trained for 1000 epochs and the training progress can be visualized through a loss plot that is automatically generated and saved as [loss_plot.png](loss_plot.png).
 The model achieved:
 
-- RMSE: $74,000
-- MAPE: 36.4%
+- RMSE: $66,800
+- MAPE: 28.4%
 
 ## License
 
