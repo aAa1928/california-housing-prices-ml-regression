@@ -21,11 +21,12 @@ class Model(nn.Module):
         x = self.out(x)
         return x
 
-def graph(epochs: int, losses: list[float]) -> None:
+def graph(epochs: int, losses: list[float], save: bool = False) -> None:
     plt.plot(range(epochs), losses)
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
-    plt.savefig('loss_plot.png')
+    if save:
+        plt.savefig('loss_plot.png')
     plt.show()
 
 torch.manual_seed(392)
@@ -64,7 +65,7 @@ y_test = torch.FloatTensor(y_test).reshape(-1, 1)
 # Initialize model and training parameters
 model = Model()
 criterion = nn.MSELoss()
-optimizer = optim.Adam(model.parameters(), lr=0.01)
+optimizer = optim.Adam(model.parameters(), lr=0.15)
 
 epochs = 1000
 losses = []
@@ -84,7 +85,7 @@ for i in range(1, epochs + 1):
 
 print('Training finished!\n')
 
-graph(epochs, losses)
+graph(epochs, losses, save=True)
 
 print('Testing...')
 with torch.no_grad():
@@ -105,5 +106,4 @@ with torch.no_grad():
     mape = sum(percentage_errors) / len(percentage_errors)
     print(f'Test MAPE: {mape:.1f}%')
 
-# Save the model
 torch.save(model.state_dict(), 'house_price_regression_model.pth')
