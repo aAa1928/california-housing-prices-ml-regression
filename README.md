@@ -1,6 +1,6 @@
 # housing-prices-ml-regression
 
-A PyTorch model for predicting California housing prices, based on geographic and demographic features. The model achieves a Root Mean Square Error (RMSE) of $74,000 and a Mean Absolute Percentage Error (MAPE) of 21.5% on test data.
+A PyTorch model for predicting California housing prices, based on geographic and demographic features.
 
 [Download the model here](housing_price_regression_model.pth)
 
@@ -8,7 +8,7 @@ A PyTorch model for predicting California housing prices, based on geographic an
 
 ## Overview
 
-This project uses PyTorch to build a neural network regression model for housing price prediction. The model analyzes several geographic and demographic variables to predict median house values in California districts.
+This project uses PyTorch to build a neural network regression model for housing price prediction. The model analyzes several geographic and demographic variables to predict median house values in California districts, based on the 1990 California Census.
 
 ## Dataset
 
@@ -41,7 +41,7 @@ To predict:
 1. Clone the repository
 2. Create a virtual environment `py -m venv .venv` and activate it `.venv/Scripts/activate`
 3. Install dependencies: `pip install -r requirements.txt`
-4. Run the model: `python main.py`
+4. Run the model: `py main.py`
 
 ## Model Architecture
 
