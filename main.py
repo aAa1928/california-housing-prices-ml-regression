@@ -2,6 +2,7 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -44,10 +45,17 @@ print(f"Rows after dropping missing values: {len(dataframe)}")
 
 dataframe['ocean_proximity'] = dataframe['ocean_proximity'].map({value: index for index, value in enumerate(dataframe['ocean_proximity'].unique())})
 X = dataframe.drop("median_house_value", axis=1).values.astype('float32')
-X
+
+# Apply StandardScaler
+scaler_X = StandardScaler()
+X = scaler_X.fit_transform(X)
+
 # %%
 y = dataframe["median_house_value"].values
-y
+
+# Scale the target variable
+scaler_y = StandardScaler()
+y = scaler_y.fit_transform(y.reshape(-1, 1)).ravel()
 
 # %%
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=392)
@@ -90,11 +98,16 @@ graph(epochs, losses, save=True)
 print('Testing...')
 with torch.no_grad():
     y_pred = model(X_test)
-    test_loss = criterion(y_pred, y_test)
+    
+    # Convert predictions and test data back to original scale
+    y_pred_orig = scaler_y.inverse_transform(y_pred)
+    y_test_orig = scaler_y.inverse_transform(y_test)
+    
+    test_loss = criterion(torch.FloatTensor(y_pred_orig), torch.FloatTensor(y_test_orig))
     
     for i in range(len(y_test)):
-        actual = y_test[i].item()
-        predicted = y_pred[i].item()
+        actual = y_test_orig[i].item()
+        predicted = y_pred_orig[i].item()
         percentage_diff = abs((predicted - actual) / actual * 100)
         print(f'Test {i+1:3d} | Predicted: ${predicted:10,.2f} | Actual: ${actual:10,.2f} | Diff: {percentage_diff:6.1f}%')
     
@@ -102,7 +115,7 @@ with torch.no_grad():
     print(f'Test RMSE: ${torch.sqrt(test_loss).item():,.2f}')
     
     # Calculate MAPE (Mean Absolute Percentage Error)
-    percentage_errors = [(abs(y_pred[i].item() - y_test[i].item()) / y_test[i].item() * 100) for i in range(len(y_test))]
+    percentage_errors = [(abs(y_pred_orig[i].item() - y_test_orig[i].item()) / y_test_orig[i].item() * 100) for i in range(len(y_test))]
     mape = sum(percentage_errors) / len(percentage_errors)
     print(f'Test MAPE: {mape:.1f}%')
 
