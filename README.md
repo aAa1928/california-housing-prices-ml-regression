@@ -1,6 +1,6 @@
 # housing-prices-ml-regression
 
-A PyTorch model for predicting California housing prices, based on geographic and demographic features. The model achieves a Root Mean Square Error (RMSE) of $74,000 and a Mean Absolute Percentage Error (MAPE) of 36.4% on test data.
+A PyTorch model for predicting California housing prices, based on geographic and demographic features. The model achieves a a Mean Absolute Percentage Error (MAPE) of 28.4% on test data.
 
 [Download the model here](housing_price_regression_model.pth)
 
