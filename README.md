@@ -49,7 +49,7 @@ To predict:
 - Hidden layer 1: 64 neurons with ReLU activation
 - Hidden layer 2: 32 neurons with ReLU activation
 - Output layer: 1 neuron (Regression)
-- Optimization: Adam optimizer with learning rate 0.01
+- Optimization: Adam optimizer with learning rate 0.005
 - Loss function: Mean Squared Error Loss
 
 ## Results
@@ -57,8 +57,8 @@ To predict:
 The model is trained for 1000 epochs and the training progress can be visualized through a loss plot that is automatically generated and saved as [loss_plot.png](loss_plot.png).
 The model achieved:
 
-- RMSE: $52,800
-- MAPE: 21.5%
+- RMSE: $50,500
+- MAPE: 19.1%
 
 ## License
 
